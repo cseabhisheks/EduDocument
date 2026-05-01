@@ -1,12 +1,13 @@
 import { MdOutlineArrowDropDownCircle } from "react-icons/md";
-
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+    const navigate=useNavigate();
   return (
     <div className="w-full bg-white shadow-sm px-6 py-4 flex items-center justify-between rounded-xl">
       
       {/* LEFT SIDE */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 hover:cursor-pointer" onClick={()=>{navigate("/")}}>
         
         {/* Logo */}
         <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">

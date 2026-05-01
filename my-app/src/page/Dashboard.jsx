@@ -3,6 +3,7 @@ import QuickActions from "../layout/QuickActions";
 import RecentDocuments from "../layout/RecentDocument";
 import AnnouncementsCard from "../layout/AnnouncementsCard";
 
+
 const Dashboard = () => {
     return (
 
@@ -13,6 +14,7 @@ const Dashboard = () => {
                 <RecentDocuments />
                 <AnnouncementsCard />
             </div>
+    
         </>
 
 

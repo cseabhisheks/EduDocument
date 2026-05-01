@@ -1,6 +1,8 @@
 import AnnouncementItem from "../component/AnnouncementItem";
+import { useNavigate } from "react-router-dom";
 
 export default function AnnouncementsCard() {
+  const navigate=useNavigate();
   const announcements = [
     {
       title: "Mid-Term Examinations Schedule",
@@ -46,7 +48,7 @@ export default function AnnouncementsCard() {
 
       {/* Footer */}
       <div className="text-center mt-6">
-        <button className="text-sm font-medium text-gray-800 hover:underline">
+        <button className="text-sm font-medium text-gray-800 hover:underline" onClick={()=>{navigate('/announcement')}}>
           View all announcements →
         </button>
       </div>
