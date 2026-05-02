@@ -28,7 +28,7 @@ export default function AnnouncementsCard() {
   ];
 
   return (
-    <div className="max-w-2xl mx-auto bg-gray-100 rounded-xl p-6 shadow-sm border border-gray-200">
+    <div className=" mx-auto bg-gray-100 rounded-xl p-6 shadow-sm border border-gray-200">
       {/* Header */}
       <div className="mb-4">
         <h2 className="text-xl font-semibold text-gray-800">

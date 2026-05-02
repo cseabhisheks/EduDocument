@@ -10,7 +10,7 @@ const Dashboard = () => {
         <>
             <Stats />
             <QuickActions />
-            <div className="grid md:grid-cols-2 p-10 gap-5">
+            <div className="grid md:grid-cols-2 p-[1.6rem] gap-[1.6rem]">
                 <RecentDocuments />
                 <AnnouncementsCard />
             </div>

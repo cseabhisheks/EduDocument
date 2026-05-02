@@ -4,7 +4,7 @@ import { ActionCard } from "../component/ActionCard";
 
 export default function QuickActions() {
   return (
-    <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6">
+    <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 m-6">
       
       {/* Header */}
       <div className="mb-4">

@@ -7,7 +7,7 @@ const StatCard = ({
   icon: Icon = FaFileAlt, // default icon
 }) => {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-5 w-full max-w-sm shadow-sm hover:shadow-md transition">
+    <div className="bg-white rounded-xl border border-gray-200 p-5 w-full shadow-sm hover:shadow-md transition">
       
       {/* Top Section */}
       <div className="flex justify-between items-start">
