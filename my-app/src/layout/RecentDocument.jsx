@@ -1,7 +1,10 @@
 import React from "react";
 import { DocumentItem } from "../component/DocumentItem";
+import { useNavigate } from "react-router-dom";
 
 export default function RecentDocuments() {
+  const navigate=useNavigate();
+  
     const documents = [
     {
         title: "Introduction to Data Structures",
@@ -57,7 +60,7 @@ export default function RecentDocuments() {
 
       {/* Footer */}
       <div className="text-center mt-4">
-        <button className="text-sm font-medium text-gray-800 hover:underline">
+        <button className="text-sm font-medium text-gray-800 hover:underline" onClick={()=>{navigate("/document-library")}}>
           View all documents →
         </button>
       </div>
