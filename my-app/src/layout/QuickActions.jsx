@@ -1,8 +1,9 @@
 import React from "react";
 import { FaFolder, FaUpload, FaSearch } from "react-icons/fa";
 import { ActionCard } from "../component/ActionCard";
-
+import {useNavigate} from 'react-router-dom';
 export default function QuickActions() {
+  const navigate=useNavigate();
   return (
     <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 m-6">
       
@@ -21,17 +22,17 @@ export default function QuickActions() {
         <ActionCard
           title="Browse Documents"
           Icon={FaFolder}
-          onClick={() => console.log("Browse")}
+          onClick={() => navigate('/document-library')}
         />
         <ActionCard
           title="Upload File"
           Icon={FaUpload}
-          onClick={() => console.log("Upload")}
+          onClick={() => navigate('/upload-document')}
         />
         <ActionCard
           title="Search Documents"
           Icon={FaSearch}
-          onClick={() => console.log("Search")}
+          onClick={() => navigate('/document-library')}
         />
       </div>
     </div>
