@@ -48,26 +48,52 @@ export default function UploadDocumentContainer() {
     }));
   };
 
-  // 🔹 Submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
 
-    const finalData = {
-      ...formData,
-      category:
-        role === "Admin" || role === "Faculty"
-          ? formData.category
-          : "Assignment",
-    };
+//handle submit
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    console.log("🚀 Data to send API:", {
-      ...finalData,
-      fileName: finalData.file?.name,
+  const finalData = new FormData();
+
+  finalData.append("title", formData.title);
+  finalData.append("department", formData.department);
+  finalData.append("subject", formData.subject);
+  finalData.append("category",
+    role === "Admin" || role === "Faculty"
+      ? formData.category
+      : "Assignment"
+  );
+
+  finalData.append("file", formData.file);
+
+  try {
+    const res = await fetch(
+      `${import.meta.env.VITE_BACKEND}/api/documents/upload`,
+      {
+        method: "POST",
+        body: finalData,
+      }
+    );
+
+    const data = await res.json();
+
+    console.log("✅ Upload success:", data);
+    alert("Document uploaded successfully!");
+
+    // optional reset form
+    setFormData({
+      title: "",
+      department: "",
+      subject: "",
+      category: role === "Admin" || role === "Faculty" ? "" : "Assignment",
+      file: null,
     });
 
-    alert("Form submitted (check console)");
-  };
-
+  } catch (err) {
+    console.error("❌ Upload failed:", err);
+    alert("Upload failed!");
+  }
+};
   return (
     <UploadDocument
       formData={formData}

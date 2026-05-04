@@ -67,7 +67,7 @@ const Navbar = () => {
             </span>
           </div>
 
-          <MdOutlineArrowDropDownCircle className="text-gray-500 w-5 h-5 cursor-pointer" />
+          {/* <MdOutlineArrowDropDownCircle className="text-gray-500 w-5 h-5 cursor-pointer" /> */}
 
           {/* Logout */}
           <button

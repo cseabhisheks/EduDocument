@@ -1,10 +1,21 @@
 import React from "react";
 import { FaFileAlt, FaDownload } from "react-icons/fa";
+export function DocumentItem({ title, type, course, fileUrl }) {
 
-export function DocumentItem({ title, type, course, onDownload }) {
+  const API = import.meta.env.VITE_BACKEND;
+
+  const handleDownload = () => {
+    const cleanPath = fileUrl.replace(/\\/g, "/");
+
+    const link = document.createElement("a");
+    link.href = `${API}/${cleanPath}`;
+    link.target = "_blank";
+    link.click();
+  };
+
   return (
     <div className="flex items-center justify-between py-4 border-b last:border-none">
-      
+
       {/* Left */}
       <div className="flex items-center gap-4">
         <div className="bg-blue-100 text-blue-600 p-3 rounded-lg">
@@ -29,11 +40,12 @@ export function DocumentItem({ title, type, course, onDownload }) {
 
       {/* Right */}
       <button
-        onClick={onDownload}
+        onClick={handleDownload}
         className="text-gray-500 hover:text-gray-800"
       >
         <FaDownload />
       </button>
+
     </div>
   );
 }

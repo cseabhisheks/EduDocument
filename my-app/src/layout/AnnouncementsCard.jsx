@@ -7,7 +7,7 @@ export default function AnnouncementsCard() {
   const [announcements, setAnnouncements] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/announcements")
+    fetch(`${import.meta.env.VITE_BACKEND}/api/announcements`)
       .then(res => res.json())
       .then(data => setAnnouncements(data))
       .catch(err => console.error(err));

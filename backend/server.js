@@ -18,7 +18,8 @@ app.use("/api/auth", authRoutes);
 app.get("/", (req, res) => {
   res.send("Server running 🚀");
 });
-
+app.use("/uploads", express.static("uploads"));
+app.use("/api/documents", require("./routes/documentRoutes"));
 
 const announcementRoutes = require("./routes/announcementRoutes");
 
