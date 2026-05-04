@@ -6,7 +6,7 @@ import DocumentsLibrary from "./page/DocumentsLibrary";
 import UploadDocument from "./page/UploadDocumentContainer";
 import AuthContainer from "./page/AuthContainer";
 import ProtectedLayout from "./layout/ProtectedRoute";
-
+import UploadAnnouncement from "./component/UploadAnnouncement";
 export default function App() {
   const isAuth = localStorage.getItem("token");
 
@@ -24,6 +24,7 @@ export default function App() {
           <Route path="/announcement" element={<Announcements />} />
           <Route path="/document-library" element={<DocumentsLibrary />} />
           <Route path="/upload-document" element={<UploadDocument />} />
+          <Route path="/upload-announcement" element={<UploadAnnouncement />} />
         </Route>
       </Routes>
     </BrowserRouter>

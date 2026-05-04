@@ -55,7 +55,7 @@ export default function QuickActions() {
           <ActionCard
             title="Broadcast Announcement"
             Icon={FaUpload}
-            onClick={() => navigate("/upload-document")}
+            onClick={() => navigate("/upload-announcement")}
           />
         }
       </div>
