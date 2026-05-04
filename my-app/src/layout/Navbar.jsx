@@ -6,6 +6,12 @@ const Navbar = () => {
   const location = useLocation();
   //   const isAuth =  true;
   const isAuth = localStorage.getItem("token");
+  //logout
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.href = "/";
+  };
   return (
     <div className="w-full bg-white shadow-sm px-6 py-4 flex items-center justify-between rounded-xl">
 
@@ -45,6 +51,9 @@ const Navbar = () => {
           </div>
 
           <MdOutlineArrowDropDownCircle className="text-gray-500 w-5 h-5 cursor-pointer" />
+          <button onClick={handleLogout}
+            className="border-2 px-4 rounded-xl bg-red-500 py-1 capitalize"
+          >logout</button>
         </div>
       )}
 

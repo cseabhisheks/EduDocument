@@ -5,6 +5,7 @@ export default function ProtectedLayout() {
     const isAuth = localStorage.getItem("token");
 
     if (!isAuth) {
+        alert("please login first")
         return <Navigate to="/" replace />;
     }
 

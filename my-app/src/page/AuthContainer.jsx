@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import Login from "../component/Login";
 import Register from "../component/Register";
+import { useNavigate } from "react-router-dom";
+
 export default function AuthContainer() {
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
 
   const [loginData, setLoginData] = useState({
@@ -13,14 +16,8 @@ export default function AuthContainer() {
     name: "",
     email: "",
     password: "",
-    role: "Student",
-    department: "",
-    enrollment: "",
   });
 
-  const departments = ["Computer Science", "Mechanical", "Electrical"];
-
-  // 🔹 Handlers
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
     setLoginData((prev) => ({ ...prev, [name]: value }));
@@ -31,14 +28,42 @@ export default function AuthContainer() {
     setRegisterData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleLoginSubmit = (e) => {
+  // 🔐 LOGIN
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    console.log("🔐 Login Data:", loginData);
+
+    try {
+      const res = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(loginData)
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        // ✅ store token
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        alert("Login Successful");
+
+        navigate("/dashboard");
+      } else {
+        alert(data.message);
+      }
+
+    } catch (err) {
+      alert("Server error");
+    }
   };
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
-    console.log("📝 Register Data:", registerData);
+    alert("Dummy register");
+    setIsLogin(true);
   };
 
   return isLogin ? (
@@ -53,7 +78,6 @@ export default function AuthContainer() {
       formData={registerData}
       handleChange={handleRegisterChange}
       handleSubmit={handleRegisterSubmit}
-      departments={departments}
       switchToLogin={() => setIsLogin(true)}
     />
   );
