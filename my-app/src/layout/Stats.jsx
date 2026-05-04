@@ -1,18 +1,20 @@
-import StatCard from "../component/StatCard"
-
-import { FaFileAlt } from "react-icons/fa";
-import { FaUpload } from "react-icons/fa";
+import StatCard from "../component/StatCard";
+import { FaFileAlt, FaUpload } from "react-icons/fa";
 import { FaArrowTrendUp } from "react-icons/fa6";
 
-export default function Stats(){
-    return(<>
-       <div className="p-6">
+export default function Stats() {
+  // 🔐 get user from localStorage
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  return (
+    <div className="p-6">
       
       {/* Heading */}
       <div className="mb-6">
         <h1 className="text-2xl font-semibold text-gray-900">
-          Welcome back, John Doe!
+          Welcome back, {user?.name || user?.email || "User"}!
         </h1>
+
         <p className="text-gray-500 mt-1">
           Access your study materials and upload your notes.
         </p>
@@ -44,5 +46,5 @@ export default function Stats(){
 
       </div>
     </div>
-    </>)
+  );
 }

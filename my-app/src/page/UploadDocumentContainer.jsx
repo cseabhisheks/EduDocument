@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import UploadDocument from "../component/UploadDocument";
 
 export default function UploadDocumentContainer() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const role = user?.role;
+
   const [formData, setFormData] = useState({
     title: "",
     department: "",
     subject: "",
-    category: "",
+    category: role === "Admin" || role === "Faculty" ? "" : "Assignment",
     file: null,
   });
 
@@ -18,19 +21,24 @@ export default function UploadDocumentContainer() {
     Electrical: ["Circuits", "Signals"],
   };
 
-  // Handle text/select
+  // 🔹 Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-      // reset subject if department changes
+
       ...(name === "department" && { subject: "" }),
+
+      // 🔐 force category for students
+      ...(role !== "Admin" && role !== "Faculty" && {
+        category: "Assignment",
+      }),
     }));
   };
 
-  // Handle file
+  // 🔹 File handler
   const handleFileChange = (e) => {
     const file = e.target.files[0];
 
@@ -40,17 +48,24 @@ export default function UploadDocumentContainer() {
     }));
   };
 
-  // Submit
+  // 🔹 Submit
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log("🚀 Data to send API:");
-    console.log({
+    const finalData = {
       ...formData,
-      fileName: formData.file?.name,
-      fileSize: formData.file?.size,
-      fileType: formData.file?.type,
+      category:
+        role === "Admin" || role === "Faculty"
+          ? formData.category
+          : "Assignment",
+    };
+
+    console.log("🚀 Data to send API:", {
+      ...finalData,
+      fileName: finalData.file?.name,
     });
+
+    alert("Form submitted (check console)");
   };
 
   return (
@@ -61,6 +76,7 @@ export default function UploadDocumentContainer() {
       handleSubmit={handleSubmit}
       departments={departments}
       subjectsMap={subjectsMap}
+      role={role}
     />
   );
 }

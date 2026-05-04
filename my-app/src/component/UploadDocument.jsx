@@ -8,7 +8,10 @@ export default function UploadDocument({
   handleSubmit,
   departments,
   subjectsMap,
+  role, // 👈 ADD THIS
 }) {
+  const isPrivileged = role === "Admin" || role === "Faculty";
+
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-start p-6">
       <form
@@ -17,14 +20,18 @@ export default function UploadDocument({
       >
         {/* Header */}
         <h1 className="text-2xl font-semibold text-gray-900">
-          Upload Document
+          {isPrivileged ? "Upload Document" : "Submit Assignment"}
         </h1>
+
         <p className="text-gray-500 mt-1 text-sm">
-          Share your notes and assignments with others (requires approval)
+          {isPrivileged
+            ? "Share your notes and assignments with others (requires approval)"
+            : "Submit your assignment for review"}
         </p>
 
         {/* Form */}
         <div className="mt-6 space-y-4">
+
           {/* Title */}
           <div>
             <label className="text-sm font-medium text-gray-700">
@@ -53,7 +60,9 @@ export default function UploadDocument({
             >
               <option value="">Select department</option>
               {departments.map((dep) => (
-                <option key={dep}>{dep}</option>
+                <option key={dep} value={dep}>
+                  {dep}
+                </option>
               ))}
             </select>
           </div>
@@ -72,10 +81,13 @@ export default function UploadDocument({
             >
               <option value="">Select subject</option>
               {formData.department &&
-                subjectsMap[formData.department].map((sub) => (
-                  <option key={sub}>{sub}</option>
+                subjectsMap[formData.department]?.map((sub) => (
+                  <option key={sub} value={sub}>
+                    {sub}
+                  </option>
                 ))}
             </select>
+
             {!formData.department && (
               <p className="text-xs text-gray-400 mt-1">
                 Select a department first
@@ -88,17 +100,29 @@ export default function UploadDocument({
             <label className="text-sm font-medium text-gray-700">
               Category *
             </label>
-            <select
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              className="w-full mt-1 px-4 py-2 rounded-lg bg-gray-100 border border-gray-200"
-            >
-              <option value="">Select category</option>
-              <option>Notes</option>
-              <option>Assignment</option>
-              <option>Question Paper</option>
-            </select>
+
+            {isPrivileged ? (
+              // 👨‍💼 Admin / Faculty → full control
+              <select
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                className="w-full mt-1 px-4 py-2 rounded-lg bg-gray-100 border border-gray-200"
+              >
+                <option value="">Select category</option>
+                <option value="Notes">Notes</option>
+                <option value="Assignment">Assignment</option>
+                <option value="Question Paper">Question Paper</option>
+              </select>
+            ) : (
+              // 🎓 Student → locked
+              <input
+                type="text"
+                value="Assignment"
+                disabled
+                className="w-full mt-1 px-4 py-2 rounded-lg bg-gray-200 border border-gray-200"
+              />
+            )}
           </div>
 
           {/* File Upload */}
@@ -106,14 +130,18 @@ export default function UploadDocument({
             <label className="text-sm font-medium text-gray-700">
               Upload File *
             </label>
+
             <div className="mt-2 border-2 border-dashed border-gray-300 rounded-xl p-6 text-center bg-gray-50 hover:bg-gray-100 cursor-pointer">
               <FaUpload className="mx-auto text-gray-400 text-2xl mb-2" />
+
               <p className="text-sm text-gray-600">
                 Click to upload or drag and drop
               </p>
+
               <p className="text-xs text-gray-400 mt-1">
                 PDF, DOC, DOCX, PPT, PPTX, TXT (max 10MB)
               </p>
+
               <input
                 type="file"
                 onChange={handleFileChange}
@@ -129,7 +157,7 @@ export default function UploadDocument({
               className="flex items-center gap-2 bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800"
             >
               <FaUpload />
-              Upload Document
+              {isPrivileged ? "Upload Document" : "Submit Assignment"}
             </button>
 
             <button

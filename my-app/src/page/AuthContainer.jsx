@@ -16,54 +16,62 @@ export default function AuthContainer() {
     name: "",
     email: "",
     password: "",
+    role: "Student",
+    department: "",
+    enrollment: "",
   });
+
+  const departments = ["Computer Science", "Mechanical", "Electrical"];
 
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
-    setLoginData((prev) => ({ ...prev, [name]: value }));
+    setLoginData({ ...loginData, [name]: value });
   };
 
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
-    setRegisterData((prev) => ({ ...prev, [name]: value }));
+    setRegisterData({ ...registerData, [name]: value });
   };
 
-  // 🔐 LOGIN
+  // LOGIN
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(loginData)
-      });
+    const res = await fetch("http://localhost:3000/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(loginData)
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (res.ok) {
-        // ✅ store token
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-
-        alert("Login Successful");
-
-        navigate("/dashboard");
-      } else {
-        alert(data.message);
-      }
-
-    } catch (err) {
-      alert("Server error");
+    if (res.ok) {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      navigate("/dashboard");
+    } else {
+      alert(data.message);
     }
   };
 
-  const handleRegisterSubmit = (e) => {
+  // REGISTER
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-    alert("Dummy register");
-    setIsLogin(true);
+
+    const res = await fetch("http://localhost:3000/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(registerData)
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("Registered Successfully");
+      setIsLogin(true);
+    } else {
+      alert(data.message);
+    }
   };
 
   return isLogin ? (
@@ -78,6 +86,7 @@ export default function AuthContainer() {
       formData={registerData}
       handleChange={handleRegisterChange}
       handleSubmit={handleRegisterSubmit}
+      departments={departments}
       switchToLogin={() => setIsLogin(true)}
     />
   );

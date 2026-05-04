@@ -69,7 +69,6 @@ export default function Register({
           <option>Admin</option>
         </select>
 
-        {/* Department */}
         <select
           name="department"
           value={formData.department}
