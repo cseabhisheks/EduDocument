@@ -58,7 +58,7 @@ export default function AuthContainer() {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch(`${import.meta.env.VITE_BACKEND}/api/auth/register", {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND}/api/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(registerData)
