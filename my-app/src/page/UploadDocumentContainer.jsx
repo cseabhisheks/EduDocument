@@ -5,15 +5,27 @@ export default function UploadDocumentContainer() {
   const user = JSON.parse(localStorage.getItem("user"));
   const role = user?.role;
 
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     title: "",
     department: "",
     subject: "",
-    category: role === "Admin" || role === "Faculty" ? "" : "Assignment",
+    category:
+      role === "Admin" || role === "Faculty"
+        ? ""
+        : "Assignment",
     file: null,
-  });
+  };
 
-  const departments = ["Computer Science", "Mechanical", "Electrical"];
+  const [formData, setFormData] = useState(initialFormData);
+
+  // 🔹 used to reset file input visually
+  const [fileInputKey, setFileInputKey] = useState(Date.now());
+
+  const departments = [
+    "Computer Science",
+    "Mechanical",
+    "Electrical",
+  ];
 
   const subjectsMap = {
     "Computer Science": ["DSA", "OS", "DBMS"],
@@ -29,12 +41,14 @@ export default function UploadDocumentContainer() {
       ...prev,
       [name]: value,
 
-      ...(name === "department" && { subject: "" }),
-
-      // 🔐 force category for students
-      ...(role !== "Admin" && role !== "Faculty" && {
-        category: "Assignment",
+      ...(name === "department" && {
+        subject: "",
       }),
+
+      ...(role !== "Admin" &&
+        role !== "Faculty" && {
+          category: "Assignment",
+        }),
     }));
   };
 
@@ -48,52 +62,52 @@ export default function UploadDocumentContainer() {
     }));
   };
 
+  // 🔹 Handle submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-//handle submit
-const handleSubmit = async (e) => {
-  e.preventDefault();
+    const finalData = new FormData();
 
-  const finalData = new FormData();
+    finalData.append("title", formData.title);
+    finalData.append("department", formData.department);
+    finalData.append("subject", formData.subject);
 
-  finalData.append("title", formData.title);
-  finalData.append("department", formData.department);
-  finalData.append("subject", formData.subject);
-  finalData.append("category",
-    role === "Admin" || role === "Faculty"
-      ? formData.category
-      : "Assignment"
-  );
-
-  finalData.append("file", formData.file);
-
-  try {
-    const res = await fetch(
-      `${import.meta.env.VITE_BACKEND}/api/documents/upload`,
-      {
-        method: "POST",
-        body: finalData,
-      }
+    finalData.append(
+      "category",
+      role === "Admin" || role === "Faculty"
+        ? formData.category
+        : "Assignment"
     );
 
-    const data = await res.json();
+    finalData.append("file", formData.file);
 
-    console.log("✅ Upload success:", data);
-    alert("Document uploaded successfully!");
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BACKEND}/api/documents/upload`,
+        {
+          method: "POST",
+          body: finalData,
+        }
+      );
 
-    // optional reset form
-    setFormData({
-      title: "",
-      department: "",
-      subject: "",
-      category: role === "Admin" || role === "Faculty" ? "" : "Assignment",
-      file: null,
-    });
+      const data = await res.json();
 
-  } catch (err) {
-    console.error("❌ Upload failed:", err);
-    alert("Upload failed!");
-  }
-};
+      console.log("✅ Upload success:", data);
+
+      alert("Document uploaded successfully!");
+
+      // ✅ Reset form
+      setFormData(initialFormData);
+
+      // ✅ Reset file input visually
+      setFileInputKey(Date.now());
+
+    } catch (err) {
+      console.error("❌ Upload failed:", err);
+      alert("Upload failed!");
+    }
+  };
+
   return (
     <UploadDocument
       formData={formData}
@@ -103,6 +117,7 @@ const handleSubmit = async (e) => {
       departments={departments}
       subjectsMap={subjectsMap}
       role={role}
+      fileInputKey={fileInputKey}
     />
   );
 }

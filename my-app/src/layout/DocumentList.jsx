@@ -1,29 +1,51 @@
 import DocumentRow from "../component/DocumentRow";
+
 export default function DocumentList({ documents }) {
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      <div className="bg-white rounded-xl shadow p-6">
+    <div className="bg-gray-50 min-h-screen p-6">
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
 
-        <h2 className="text-xl font-semibold text-gray-800">
-          Documents ({documents.length})
-        </h2>
+        {/* Header */}
+        <div className="mb-4">
+          <h2 className="text-2xl font-semibold text-gray-800">
+            Documents ({documents.length})
+          </h2>
+        </div>
 
-        {/* ✅ TABLE WRAPPER MUST EXIST */}
+        {/* Table */}
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full table-auto border-collapse">
 
-            <thead className="border-b text-gray-600 text-sm">
-              <tr>
-                <th>Title</th>
-                <th>Subject</th>
-                <th>Category</th>
+            {/* Table Head */}
+            <thead className="hidden md:table-header-group border-b bg-gray-50">
+              <tr className="text-left text-sm text-gray-600">
+
+                <th className="py-3 px-4 font-semibold">
+                  Title
+                </th>
+
+                <th className="py-3 px-4 font-semibold">
+                  Subject
+                </th>
+
+                <th className="py-3 px-4 font-semibold">
+                  Category
+                </th>
+
+                <th className="py-3 px-4 font-semibold text-center">
+                  Download
+                </th>
+
               </tr>
             </thead>
 
-            {/* ✅ tbody must be INSIDE table */}
+            {/* Table Body */}
             <tbody>
               {documents.map((doc, index) => (
-                <DocumentRow key={index} doc={doc} />
+                <DocumentRow
+                  key={index}
+                  doc={doc}
+                />
               ))}
             </tbody>
 

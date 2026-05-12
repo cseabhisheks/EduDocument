@@ -8,9 +8,11 @@ export default function UploadDocument({
   handleSubmit,
   departments,
   subjectsMap,
-  role, // 👈 ADD THIS
+  role,
+  fileInputKey,
 }) {
-  const isPrivileged = role === "Admin" || role === "Faculty";
+  const isPrivileged =
+    role === "Admin" || role === "Faculty";
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-start p-6">
@@ -20,7 +22,9 @@ export default function UploadDocument({
       >
         {/* Header */}
         <h1 className="text-2xl font-semibold text-gray-900">
-          {isPrivileged ? "Upload Document" : "Submit Assignment"}
+          {isPrivileged
+            ? "Upload Document"
+            : "Submit Assignment"}
         </h1>
 
         <p className="text-gray-500 mt-1 text-sm">
@@ -37,6 +41,7 @@ export default function UploadDocument({
             <label className="text-sm font-medium text-gray-700">
               Document Title *
             </label>
+
             <input
               type="text"
               name="title"
@@ -44,6 +49,7 @@ export default function UploadDocument({
               onChange={handleChange}
               placeholder="e.g., Introduction to Data Structures"
               className="w-full mt-1 px-4 py-2 rounded-lg bg-gray-100 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
             />
           </div>
 
@@ -52,15 +58,23 @@ export default function UploadDocument({
             <label className="text-sm font-medium text-gray-700">
               Department *
             </label>
+
             <select
               name="department"
               value={formData.department}
               onChange={handleChange}
               className="w-full mt-1 px-4 py-2 rounded-lg bg-gray-100 border border-gray-200"
+              required
             >
-              <option value="">Select department</option>
+              <option value="">
+                Select department
+              </option>
+
               {departments.map((dep) => (
-                <option key={dep} value={dep}>
+                <option
+                  key={dep}
+                  value={dep}
+                >
                   {dep}
                 </option>
               ))}
@@ -72,17 +86,27 @@ export default function UploadDocument({
             <label className="text-sm font-medium text-gray-700">
               Subject *
             </label>
+
             <select
               name="subject"
               value={formData.subject}
               onChange={handleChange}
               disabled={!formData.department}
               className="w-full mt-1 px-4 py-2 rounded-lg bg-gray-100 border border-gray-200 disabled:opacity-50"
+              required
             >
-              <option value="">Select subject</option>
+              <option value="">
+                Select subject
+              </option>
+
               {formData.department &&
-                subjectsMap[formData.department]?.map((sub) => (
-                  <option key={sub} value={sub}>
+                subjectsMap[
+                  formData.department
+                ]?.map((sub) => (
+                  <option
+                    key={sub}
+                    value={sub}
+                  >
                     {sub}
                   </option>
                 ))}
@@ -102,20 +126,30 @@ export default function UploadDocument({
             </label>
 
             {isPrivileged ? (
-              // 👨‍💼 Admin / Faculty → full control
               <select
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
                 className="w-full mt-1 px-4 py-2 rounded-lg bg-gray-100 border border-gray-200"
+                required
               >
-                <option value="">Select category</option>
-                <option value="Notes">Notes</option>
-                <option value="Assignment">Assignment</option>
-                <option value="Question Paper">Question Paper</option>
+                <option value="">
+                  Select category
+                </option>
+
+                <option value="Notes">
+                  Notes
+                </option>
+
+                <option value="Assignment">
+                  Assignment
+                </option>
+
+                <option value="Question Paper">
+                  Question Paper
+                </option>
               </select>
             ) : (
-              // 🎓 Student → locked
               <input
                 type="text"
                 value="Assignment"
@@ -139,29 +173,48 @@ export default function UploadDocument({
               </p>
 
               <p className="text-xs text-gray-400 mt-1">
-                PDF, DOC, DOCX, PPT, PPTX, TXT (max 10MB)
+                PDF, DOC, DOCX, PPT, PPTX,
+                TXT (max 10MB)
               </p>
 
               <input
                 type="file"
                 onChange={handleFileChange}
                 className="mt-2"
+                key={fileInputKey}
+                required
               />
             </div>
+
+            {formData.file && (
+              <p className="text-sm text-green-600 mt-2">
+                Selected File:{" "}
+                {formData.file.name}
+              </p>
+            )}
           </div>
 
           {/* Buttons */}
           <div className="flex justify-between mt-4">
+
+            {/* Submit */}
             <button
               type="submit"
               className="flex items-center gap-2 bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800"
             >
               <FaUpload />
-              {isPrivileged ? "Upload Document" : "Submit Assignment"}
+
+              {isPrivileged
+                ? "Upload Document"
+                : "Submit Assignment"}
             </button>
 
+            {/* Cancel */}
             <button
               type="button"
+              onClick={() =>
+                window.location.reload()
+              }
               className="px-5 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100"
             >
               Cancel
@@ -170,7 +223,9 @@ export default function UploadDocument({
 
           {/* Note */}
           <p className="text-xs text-gray-400">
-            Note: Your upload will be reviewed by faculty before becoming visible.
+            Note: Your upload will be
+            reviewed by faculty before
+            becoming visible.
           </p>
         </div>
       </form>
