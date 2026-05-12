@@ -28,7 +28,7 @@ export default function SearchFilter({
         />
 
         {/* Filters */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 
           <select onChange={(e) => setDepartment(e.target.value)}>
             <option value="">All Courses</option>
@@ -46,7 +46,7 @@ export default function SearchFilter({
             <option value="assignment">Assignments</option>
           </select>
 
-        </div>
+        </div> */}
       </div>
     </div>
   );

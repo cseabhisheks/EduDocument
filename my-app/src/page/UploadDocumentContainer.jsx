@@ -1,44 +1,72 @@
 import React, { useState } from "react";
+
 import UploadDocument from "../component/UploadDocument";
 
 export default function UploadDocumentContainer() {
-  const user = JSON.parse(localStorage.getItem("user"));
+
+  // USER
+  const user =
+    JSON.parse(
+      localStorage.getItem("user")
+    );
+
   const role = user?.role;
 
+  // INITIAL FORM DATA
   const initialFormData = {
     title: "",
     department: "",
     subject: "",
     category:
-      role === "Admin" || role === "Faculty"
+      role === "Admin" ||
+      role === "Faculty"
         ? ""
         : "Assignment",
     file: null,
   };
 
-  const [formData, setFormData] = useState(initialFormData);
+  // STATE
+  const [formData, setFormData] =
+    useState(initialFormData);
 
-  // 🔹 used to reset file input visually
-  const [fileInputKey, setFileInputKey] = useState(Date.now());
+  // RESET FILE INPUT
+  const [fileInputKey, setFileInputKey] =
+    useState(Date.now());
 
+  // DEPARTMENTS
   const departments = [
     "Computer Science",
     "Mechanical",
     "Electrical",
   ];
 
+  // SUBJECTS
   const subjectsMap = {
-    "Computer Science": ["DSA", "OS", "DBMS"],
-    Mechanical: ["Thermodynamics", "Fluid Mechanics"],
-    Electrical: ["Circuits", "Signals"],
+    "Computer Science": [
+      "DSA",
+      "OS",
+      "DBMS",
+    ],
+
+    Mechanical: [
+      "Thermodynamics",
+      "Fluid Mechanics",
+    ],
+
+    Electrical: [
+      "Circuits",
+      "Signals",
+    ],
   };
 
-  // 🔹 Handle input change
+  // HANDLE INPUT CHANGE
   const handleChange = (e) => {
+
     const { name, value } = e.target;
 
     setFormData((prev) => ({
       ...prev,
+
       [name]: value,
 
       ...(name === "department" && {
@@ -52,8 +80,9 @@ export default function UploadDocumentContainer() {
     }));
   };
 
-  // 🔹 File handler
+  // HANDLE FILE CHANGE
   const handleFileChange = (e) => {
+
     const file = e.target.files[0];
 
     setFormData((prev) => ({
@@ -62,26 +91,51 @@ export default function UploadDocumentContainer() {
     }));
   };
 
-  // 🔹 Handle submit
+  // HANDLE SUBMIT
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     const finalData = new FormData();
 
-    finalData.append("title", formData.title);
-    finalData.append("department", formData.department);
-    finalData.append("subject", formData.subject);
+    // TEXT FIELDS
+    finalData.append(
+      "title",
+      formData.title
+    );
+
+    finalData.append(
+      "department",
+      formData.department
+    );
+
+    finalData.append(
+      "subject",
+      formData.subject
+    );
 
     finalData.append(
       "category",
-      role === "Admin" || role === "Faculty"
+      role === "Admin" ||
+      role === "Faculty"
         ? formData.category
         : "Assignment"
     );
 
-    finalData.append("file", formData.file);
+    // FILE
+    finalData.append(
+      "file",
+      formData.file
+    );
+
+    // 👇 UPLOADED BY
+    finalData.append(
+      "uploadedBy",
+      user?.email || user?.name
+    );
 
     try {
+
       const res = await fetch(
         `${import.meta.env.VITE_BACKEND}/api/documents/upload`,
         {
@@ -92,18 +146,28 @@ export default function UploadDocumentContainer() {
 
       const data = await res.json();
 
-      console.log("✅ Upload success:", data);
+      console.log(
+        "✅ Upload success:",
+        data
+      );
 
-      alert("Document uploaded successfully!");
+      alert(
+        "Document uploaded successfully!"
+      );
 
-      // ✅ Reset form
+      // RESET FORM
       setFormData(initialFormData);
 
-      // ✅ Reset file input visually
+      // RESET FILE INPUT
       setFileInputKey(Date.now());
 
     } catch (err) {
-      console.error("❌ Upload failed:", err);
+
+      console.error(
+        "❌ Upload failed:",
+        err
+      );
+
       alert("Upload failed!");
     }
   };
