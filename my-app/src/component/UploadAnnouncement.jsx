@@ -15,7 +15,7 @@ export default function UploadAnnouncement() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:3000/api/announcements", {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND}/api/announcements`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
