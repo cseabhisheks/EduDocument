@@ -1,13 +1,16 @@
 // components/AnnouncementCard.jsx
-import { FaBell, FaUser, FaCalendarAlt } from "react-icons/fa";
+import { FaBell, FaUser, FaCalendarAlt, FaTrash } from "react-icons/fa";
 
 const AnnouncementCard = ({
+  id,
   title,
   description,
   author,
   role,
   date,
   tags = [],
+  isAdmin = false,
+  onDelete,
 }) => {
   return (
     <div className="bg-white rounded-2xl shadow-sm border p-5 flex gap-4 items-start">
@@ -18,7 +21,7 @@ const AnnouncementCard = ({
       </div>
 
       {/* Content */}
-      <div className="flex-1">
+      <div className="flex-1 min-w-0">
         <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
         <p className="text-gray-500 text-sm mt-1">{description}</p>
 
@@ -50,6 +53,18 @@ const AnnouncementCard = ({
           ))}
         </div>
       </div>
+
+      {isAdmin && id && typeof onDelete === "function" && (
+        <button
+          type="button"
+          onClick={() => onDelete(id)}
+          className="shrink-0 flex items-center gap-1 text-sm text-red-600 border border-red-200 px-3 py-1.5 rounded-lg hover:bg-red-50"
+          title="Delete announcement"
+        >
+          <FaTrash size={12} />
+          Delete
+        </button>
+      )}
     </div>
   );
 };

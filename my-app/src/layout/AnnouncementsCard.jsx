@@ -1,17 +1,49 @@
 import { useEffect, useState } from "react";
 import AnnouncementItem from "../component/AnnouncementItem";
 import { useNavigate } from "react-router-dom";
+import { authHeadersJson } from "../utilities/api";
 
 export default function AnnouncementsCard() {
   const navigate = useNavigate();
   const [announcements, setAnnouncements] = useState([]);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BACKEND}/api/announcements`)
-      .then(res => res.json())
-      .then(data => setAnnouncements(data))
-      .catch(err => console.error(err));
+    try {
+      setUser(JSON.parse(localStorage.getItem("user") || "null"));
+    } catch {
+      setUser(null);
+    }
   }, []);
+
+  const load = () => {
+    fetch(`${import.meta.env.VITE_BACKEND}/api/announcements`)
+      .then((res) => res.json())
+      .then((data) => setAnnouncements(Array.isArray(data) ? data : []))
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
+
+  const handleDelete = async (id) => {
+    if (!confirm("Delete this announcement?")) return;
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BACKEND}/api/announcements/${id}`,
+        { method: "DELETE", headers: authHeadersJson() }
+      );
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        alert(data.message || "Delete failed");
+        return;
+      }
+      load();
+    } catch (e) {
+      alert(e.message);
+    }
+  };
 
   return (
     <div className="mx-auto bg-gray-100 rounded-xl p-6 shadow-sm border w-full border-gray-200">
@@ -26,13 +58,16 @@ export default function AnnouncementsCard() {
       </div>
 
       <div className="divide-y">
-        {announcements.map((item, index) => (
+        {announcements.map((item) => (
           <AnnouncementItem
-            key={index}
+            key={item._id}
+            id={item._id}
             title={item.title}
             description={item.description}
             author={item.author}
             date={new Date(item.createdAt).toLocaleDateString()}
+            isAdmin={user?.role === "Admin"}
+            onDelete={handleDelete}
           />
         ))}
       </div>

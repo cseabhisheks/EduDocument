@@ -16,7 +16,12 @@ const userSchema = new mongoose.Schema({
     default: "Student"
   },
   department: String,
-  enrollment: String
+  enrollment: String,
+  /** Subjects this faculty member teaches (used to match student assignments). */
+  subjects: {
+    type: [String],
+    default: [],
+  },
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", userSchema);

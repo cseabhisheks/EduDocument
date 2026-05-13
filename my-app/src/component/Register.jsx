@@ -6,6 +6,8 @@ export default function Register({
   handleChange,
   handleSubmit,
   departments,
+  allSubjects = [],
+  toggleFacultySubject,
   switchToLogin,
 }) {
   return (
@@ -80,6 +82,30 @@ export default function Register({
             <option key={dep}>{dep}</option>
           ))}
         </select>
+
+        {formData.role === "Faculty" && (
+          <div className="mb-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+            <p className="text-xs text-gray-600 mb-2">
+              Select subjects you teach (optional). If none are selected, you
+              will see all student assignments in your department.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {allSubjects.map((sub) => (
+                <label
+                  key={sub}
+                  className="inline-flex items-center gap-1 text-sm cursor-pointer"
+                >
+                  <input
+                    type="checkbox"
+                    checked={(formData.subjects || []).includes(sub)}
+                    onChange={() => toggleFacultySubject(sub)}
+                  />
+                  {sub}
+                </label>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Enrollment */}
         <input

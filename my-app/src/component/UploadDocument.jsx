@@ -29,7 +29,7 @@ export default function UploadDocument({
 
         <p className="text-gray-500 mt-1 text-sm">
           {isPrivileged
-            ? "Share your notes and assignments with others (requires approval)"
+            ? "Notes & question papers for students. Use category Assignment for teacher assignment files (handouts). Students use Submit Assignment for their own submissions."
             : "Submit your assignment for review"}
         </p>
 

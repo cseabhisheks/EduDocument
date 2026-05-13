@@ -6,7 +6,12 @@ const Navbar = () => {
   const location = useLocation();
 
   const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user"));
+  let user = null;
+  try {
+    user = JSON.parse(localStorage.getItem("user") || "null");
+  } catch {
+    user = null;
+  }
 
   // 🔤 get initials (e.g., John Doe → JD)
   const getInitials = (name) => {
@@ -50,6 +55,58 @@ const Navbar = () => {
       {/* RIGHT SIDE */}
       {token && user && (
         <div className="flex items-center gap-4">
+
+          <nav className="hidden md:flex items-center gap-2 text-sm text-gray-600 mr-2 flex-wrap justify-end max-w-xl">
+            <button
+              type="button"
+              className={`px-2 py-1 rounded-lg hover:bg-gray-100 ${
+                location.pathname.startsWith("/notes")
+                  ? "text-indigo-600 font-medium"
+                  : ""
+              }`}
+              onClick={() => navigate("/notes")}
+            >
+              Notes
+            </button>
+            <button
+              type="button"
+              className={`px-2 py-1 rounded-lg hover:bg-gray-100 ${
+                location.pathname.startsWith("/assignments")
+                  ? "text-indigo-600 font-medium"
+                  : ""
+              }`}
+              onClick={() => navigate("/assignments")}
+            >
+              Assignments
+            </button>
+            {user.role === "Admin" && (
+              <>
+                <button
+                  type="button"
+                  className="hover:text-indigo-600 px-2 py-1 rounded-lg hover:bg-gray-100"
+                  onClick={() => navigate("/admin")}
+                >
+                  Admin
+                </button>
+                <button
+                  type="button"
+                  className="hover:text-indigo-600 px-2 py-1 rounded-lg hover:bg-gray-100"
+                  onClick={() => navigate("/faculty/students")}
+                >
+                  Students
+                </button>
+              </>
+            )}
+            {user.role === "Faculty" && (
+              <button
+                type="button"
+                className="hover:text-indigo-600 px-2 py-1 rounded-lg hover:bg-gray-100"
+                onClick={() => navigate("/faculty/students")}
+              >
+                Students
+              </button>
+            )}
+          </nav>
 
           {/* Avatar */}
           <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-semibold">

@@ -1,12 +1,18 @@
 import React from "react";
-import { FaFolder, FaUpload, FaSearch } from "react-icons/fa";
+import { FaFolder, FaUpload, FaUsers, FaCog, FaFileAlt } from "react-icons/fa";
 import { ActionCard } from "../component/ActionCard";
 import { useNavigate } from "react-router-dom";
 
 export default function QuickActions() {
   const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = (() => {
+    try {
+      return JSON.parse(localStorage.getItem("user") || "null");
+    } catch {
+      return null;
+    }
+  })();
   const role = user?.role;
 
   return (
@@ -23,25 +29,25 @@ export default function QuickActions() {
       </div>
 
       {/* Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
         {/* Common */}
         <ActionCard
-          title="Browse Documents"
+          title="Notes & materials"
           Icon={FaFolder}
-          onClick={() => navigate("/document-library")}
+          onClick={() => navigate("/notes")}
         />
 
         <ActionCard
-          title="Search Documents"
-          Icon={FaSearch}
-          onClick={() => navigate("/document-library")}
+          title="Assignments"
+          Icon={FaFileAlt}
+          onClick={() => navigate("/assignments")}
         />
 
         {/* 🔐 ROLE-BASED but SAME ROUTE */}
         <ActionCard
           title={
-            role === "Admin" || "Faculty"
+            role === "Admin" || role === "Faculty"
               ? "Upload File / Assignment"
               : "Submit Assignment"
           }
@@ -50,14 +56,29 @@ export default function QuickActions() {
         />
         {/* broadcast announcement */}
 
-        {
-         (role=="Admin"||role=="Faculty")&&
+        {(role === "Admin" || role === "Faculty") && (
           <ActionCard
             title="Broadcast Announcement"
             Icon={FaUpload}
             onClick={() => navigate("/upload-announcement")}
           />
-        }
+        )}
+
+        {role === "Admin" && (
+          <ActionCard
+            title="Admin — teachers & students"
+            Icon={FaCog}
+            onClick={() => navigate("/admin")}
+          />
+        )}
+
+        {(role === "Admin" || role === "Faculty") && (
+          <ActionCard
+            title={role === "Admin" ? "All students" : "Students (your dept)"}
+            Icon={FaUsers}
+            onClick={() => navigate("/faculty/students")}
+          />
+        )}
       </div>
     </div>
   );

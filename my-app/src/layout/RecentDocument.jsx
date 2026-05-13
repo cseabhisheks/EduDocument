@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DocumentItem } from "../component/DocumentItem";
 import { useNavigate } from "react-router-dom";
+import { authHeadersJson } from "../utilities/api";
 
 export default function RecentDocuments() {
   const navigate = useNavigate();
@@ -15,15 +16,21 @@ export default function RecentDocuments() {
         setLoading(true);
 
         const res = await fetch(
-          `${import.meta.env.VITE_BACKEND}/api/documents`
+          `${import.meta.env.VITE_BACKEND}/api/documents`,
+          { headers: authHeadersJson() }
         );
+
+        if (res.status === 401) {
+          throw new Error("Unauthorized");
+        }
 
         if (!res.ok) {
           throw new Error("Failed to fetch documents");
         }
 
         const data = await res.json();
-        setDocuments(data);
+        const list = Array.isArray(data) ? data : [];
+        setDocuments(list);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -41,7 +48,6 @@ export default function RecentDocuments() {
   if (error) {
     return <div className="p-4 text-red-500">{error}</div>;
   }
-  console.log(documents)
 
   return (
     <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6">
@@ -58,9 +64,9 @@ export default function RecentDocuments() {
 
       {/* List */}
       <div>
-        {documents.map((doc, index) => (
+        {documents.slice(0, 5).map((doc) => (
           <DocumentItem
-            key={index}
+            key={doc._id || doc.title}
             title={doc.title}
             type={doc.category}      // ✅ FIXED
             course={doc.subject}     // ✅ FIXED
@@ -73,9 +79,9 @@ export default function RecentDocuments() {
       <div className="text-center mt-4">
         <button
           className="text-sm font-medium text-gray-800 hover:underline"
-          onClick={() => navigate("/document-library")}
+          onClick={() => navigate("/notes")}
         >
-          View all documents →
+          View all notes →
         </button>
       </div>
     </div>

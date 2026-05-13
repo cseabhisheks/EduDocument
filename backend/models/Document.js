@@ -14,13 +14,24 @@ const documentSchema = new mongoose.Schema({
 
   fileUrl: String,
 
-  // 👇 ADD THIS
   uploadedBy: String,
 
-  // 👇 OPTIONAL
-  downloads: {
-    type: Number,
-    default: 0,
+  uploaderId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    default: null,
+  },
+
+  uploaderRole: {
+    type: String,
+    default: "",
+  },
+
+  /** When category is Assignment: teacher handout vs student submission */
+  assignmentKind: {
+    type: String,
+    enum: ["handout", "submission"],
+    default: undefined,
   },
 
   createdAt: {

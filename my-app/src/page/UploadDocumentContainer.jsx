@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 
 import UploadDocument from "../component/UploadDocument";
+import { authHeadersBearer } from "../utilities/api";
+import { departments, subjectsMap } from "../utilities/courseOptions";
 
 export default function UploadDocumentContainer() {
 
   // USER
-  const user =
-    JSON.parse(
-      localStorage.getItem("user")
-    );
+  const user = (() => {
+    try {
+      return JSON.parse(localStorage.getItem("user") || "null");
+    } catch {
+      return null;
+    }
+  })();
 
   const role = user?.role;
 
@@ -32,32 +37,6 @@ export default function UploadDocumentContainer() {
   // RESET FILE INPUT
   const [fileInputKey, setFileInputKey] =
     useState(Date.now());
-
-  // DEPARTMENTS
-  const departments = [
-    "Computer Science",
-    "Mechanical",
-    "Electrical",
-  ];
-
-  // SUBJECTS
-  const subjectsMap = {
-    "Computer Science": [
-      "DSA",
-      "OS",
-      "DBMS",
-    ],
-
-    Mechanical: [
-      "Thermodynamics",
-      "Fluid Mechanics",
-    ],
-
-    Electrical: [
-      "Circuits",
-      "Signals",
-    ],
-  };
 
   // HANDLE INPUT CHANGE
   const handleChange = (e) => {
@@ -140,6 +119,7 @@ export default function UploadDocumentContainer() {
         `${import.meta.env.VITE_BACKEND}/api/documents/upload`,
         {
           method: "POST",
+          headers: authHeadersBearer(),
           body: finalData,
         }
       );

@@ -1,7 +1,13 @@
 import { useState } from "react";
+import { authHeadersJson } from "../utilities/api";
 
 export default function UploadAnnouncement() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  let user = null;
+  try {
+    user = JSON.parse(localStorage.getItem("user") || "null");
+  } catch {
+    user = null;
+  }
 
   const [form, setForm] = useState({
     title: "",
@@ -17,9 +23,7 @@ export default function UploadAnnouncement() {
 
     const res = await fetch(`${import.meta.env.VITE_BACKEND}/api/announcements`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: authHeadersJson(),
       body: JSON.stringify({
         ...form,
         author: user?.name,
