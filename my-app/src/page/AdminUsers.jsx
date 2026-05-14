@@ -134,11 +134,10 @@ export default function AdminUsers() {
               key={r}
               type="button"
               onClick={() => setTab(r)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                tab === r
-                  ? "bg-black text-white"
-                  : "bg-white border border-gray-200 text-gray-700"
-              }`}
+              className={`px-4 py-2 rounded-lg text-sm font-medium ${tab === r
+                ? "bg-black text-white"
+                : "bg-white border border-gray-200 text-gray-700"
+                }`}
             >
               {r === "Faculty" ? "Teachers" : "Students"}
             </button>
@@ -149,57 +148,59 @@ export default function AdminUsers() {
           <p className="text-gray-500">Loading…</p>
         ) : (
           <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-gray-50 text-gray-600">
-                <tr>
-                  <th className="py-3 px-4">Name</th>
-                  <th className="py-3 px-4">Email</th>
-                  <th className="py-3 px-4">Department</th>
-                  {tab === "Faculty" && (
-                    <th className="py-3 px-4">Teaching subjects</th>
-                  )}
-                  {tab === "Student" && (
-                    <th className="py-3 px-4">Enrollment</th>
-                  )}
-                  <th className="py-3 px-4 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((u) => (
-                  <tr key={u._id} className="border-t border-gray-100">
-                    <td className="py-3 px-4">{u.name}</td>
-                    <td className="py-3 px-4">{u.email}</td>
-                    <td className="py-3 px-4">{u.department || "—"}</td>
+            <div className="overflow-x-auto">
+              <table className="min-w-[900px] w-full text-left text-sm">
+                <thead className="bg-gray-50 text-gray-600">
+                  <tr>
+                    <th className="py-3 px-4">Name</th>
+                    <th className="py-3 px-4">Email</th>
+                    <th className="py-3 px-4">Department</th>
                     {tab === "Faculty" && (
-                      <td className="py-3 px-4 text-xs text-gray-600">
-                        {Array.isArray(u.subjects) && u.subjects.length
-                          ? u.subjects.join(", ")
-                          : "— (all subjects in dept)"}
-                      </td>
+                      <th className="py-3 px-4">Teaching subjects</th>
                     )}
                     {tab === "Student" && (
-                      <td className="py-3 px-4">{u.enrollment || "—"}</td>
+                      <th className="py-3 px-4">Enrollment</th>
                     )}
-                    <td className="py-3 px-4 text-right space-x-2">
-                      <button
-                        type="button"
-                        className="text-indigo-600 hover:underline"
-                        onClick={() => startEdit(u)}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        type="button"
-                        className="text-red-600 hover:underline"
-                        onClick={() => remove(u._id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
+                    <th className="py-3 px-4 text-right">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {users.map((u) => (
+                    <tr key={u._id} className="border-t border-gray-100">
+                      <td className="py-3 px-4">{u.name}</td>
+                      <td className="py-3 px-4">{u.email}</td>
+                      <td className="py-3 px-4">{u.department || "—"}</td>
+                      {tab === "Faculty" && (
+                        <td className="py-3 px-4 text-xs text-gray-600">
+                          {Array.isArray(u.subjects) && u.subjects.length
+                            ? u.subjects.join(", ")
+                            : "— (all subjects in dept)"}
+                        </td>
+                      )}
+                      {tab === "Student" && (
+                        <td className="py-3 px-4">{u.enrollment || "—"}</td>
+                      )}
+                      <td className="py-3 px-4 text-right space-x-2">
+                        <button
+                          type="button"
+                          className="text-indigo-600 hover:underline"
+                          onClick={() => startEdit(u)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          className="text-red-600 hover:underline"
+                          onClick={() => remove(u._id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
             {users.length === 0 && (
               <p className="p-6 text-gray-500 text-center">No users in this tab.</p>
             )}

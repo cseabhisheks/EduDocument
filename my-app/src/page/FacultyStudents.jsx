@@ -56,26 +56,28 @@ export default function FacultyStudents() {
           <p className="text-gray-500">Loading…</p>
         ) : (
           <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-gray-50 text-gray-600">
-                <tr>
-                  <th className="py-3 px-4">Name</th>
-                  <th className="py-3 px-4">Email</th>
-                  <th className="py-3 px-4">Department</th>
-                  <th className="py-3 px-4">Enrollment</th>
-                </tr>
-              </thead>
-              <tbody>
-                {students.map((s) => (
-                  <tr key={s._id} className="border-t border-gray-100">
-                    <td className="py-3 px-4">{s.name}</td>
-                    <td className="py-3 px-4">{s.email}</td>
-                    <td className="py-3 px-4">{s.department || "—"}</td>
-                    <td className="py-3 px-4">{s.enrollment || "—"}</td>
+            <div className="overflow-x-auto">
+              <table className="min-w-[900px] w-full text-left text-sm">
+                <thead className="bg-gray-50 text-gray-600">
+                  <tr>
+                    <th className="py-3 px-4">Name</th>
+                    <th className="py-3 px-4">Email</th>
+                    <th className="py-3 px-4">Department</th>
+                    <th className="py-3 px-4">Enrollment</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {students.map((s) => (
+                    <tr key={s._id} className="border-t border-gray-100">
+                      <td className="py-3 px-4">{s.name}</td>
+                      <td className="py-3 px-4">{s.email}</td>
+                      <td className="py-3 px-4">{s.department || "—"}</td>
+                      <td className="py-3 px-4">{s.enrollment || "—"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
             {students.length === 0 && (
               <p className="p-6 text-gray-500 text-center">No students found.</p>
             )}
