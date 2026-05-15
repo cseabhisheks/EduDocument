@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "dgSpecHash": "acl9xyJyocQ=",
+  "success": true,
+  "projectFilePath": "D:\\edudocument\\dotnetbackend\\DotNetBackend.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Abhishek Kumar Singh\\.nuget\\packages\\bcrypt.net-next\\4.2.0\\bcrypt.net-next.4.2.0.nupkg.sha512",
+    "C:\\Users\\Abhishek Kumar Singh\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
+    "C:\\Users\\Abhishek Kumar Singh\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\10.0.8\\microsoft.aspnetcore.authentication.jwtbearer.10.0.8.nupkg.sha512",
+    "C:\\Users\\Abhishek Kumar Singh\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.7\\microsoft.aspnetcore.openapi.10.0.7.nupkg.sha512",
+    "C:\\Users\\Abhishek Kumar Singh\\.nuget\\packages\\microsoft.identitymodel.abstractions\\8.0.1\\microsoft.identitymodel.abstractions.8.0.1.nupkg.sha512",
+    "C:\\Users\\Abhishek Kumar Singh\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\8.0.1\\microsoft.identitymodel.jsonwebtokens.8.0.1.nupkg.sha512",
+    "C:\\Users\\Abhishek Kumar Singh\\.nuget\\packages\\microsoft.identitymodel.logging\\8.0.1\\microsoft.identitymodel.logging.8.0.1.nupkg.sha512",
+    "C:\\Users\\Abhishek Kumar Singh\\.nuget\\packages\\microsoft.identitymodel.protocols\\8.0.1\\microsoft.identitymodel.protocols.8.0.1.nupkg.sha512",
+    "C:\\Users\\Abhishek Kumar Singh\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\8.0.1\\microsoft.identitymodel.protocols.openidconnect.8.0.1.nupkg.sha512",
+    "C:\\Users\\Abhishek Kumar Singh\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.0.1\\microsoft.identitymodel.tokens.8.0.1.nupkg.sha512",
+    "C:\\Users\\Abhishek Kumar Singh\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512",
+    "C:\\Users\\Abhishek Kumar Singh\\.nuget\\packages\\mongodb.bson\\3.8.1\\mongodb.bson.3.8.1.nupkg.sha512",
+    "C:\\Users\\Abhishek Kumar Singh\\.nuget\\packages\\mongodb.driver\\3.8.1\\mongodb.driver.3.8.1.nupkg.sha512",
+    "C:\\Users\\Abhishek Kumar Singh\\.nuget\\packages\\sharpcompress\\0.30.1\\sharpcompress.0.30.1.nupkg.sha512",
+    "C:\\Users\\Abhishek Kumar Singh\\.nuget\\packages\\snappier\\1.3.1\\snappier.1.3.1.nupkg.sha512",
+    "C:\\Users\\Abhishek Kumar Singh\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.0.1\\system.identitymodel.tokens.jwt.8.0.1.nupkg.sha512",
+    "C:\\Users\\Abhishek Kumar Singh\\.nuget\\packages\\zstdsharp.port\\0.7.3\\zstdsharp.port.0.7.3.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "message": "Package 'SharpCompress' 0.30.1 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-6c8g-7p36-r338",
+      "projectPath": "D:\\edudocument\\dotnetbackend\\DotNetBackend.csproj",
+      "warningLevel": 1,
+      "filePath": "D:\\edudocument\\dotnetbackend\\DotNetBackend.csproj",
+      "libraryId": "SharpCompress",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
+}
